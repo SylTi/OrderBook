@@ -1,0 +1,29 @@
+{
+  "name": "OrderBook",
+  "version": "0.1.0",
+  "description": "OrderBook with buy/sell buyStop/sellStop in node",
+  "main": "exchange.js",
+  "dependencies": {
+    "heap": "^0.2.5",
+    "should": "^4.4.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "mocha exchange.test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SylTi/OrderBook.git"
+  },
+  "keywords": [
+    "Bitcoin",
+    "OrderBook",
+    "javascript"
+  ],
+  "author": "SylTi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SylTi/OrderBook/issues"
+  },
+  "homepage": "https://github.com/SylTi/OrderBook"
+}
