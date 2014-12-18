@@ -1,3 +1,4 @@
+/*jslint node: true */
 'use strict';
 
 var Heap = require('heap');
@@ -13,8 +14,7 @@ var Order = function (type, price, volume) {
 
 Order.prototype.toString = function ()
 {
-	return("order: "+ this.orderType 
-				+ " "+ this.volume + "@" + this.price);
+	return("order: "+ this.orderType + " "+ this.volume + "@" + this.price);
 };
 
 
@@ -106,9 +106,9 @@ Exchange.prototype.helperMarket = function (type, volume)
 			}
 			else
 			{
-				var tmp = new Order(type, next.price, volume);
-				console.log('volume < : ' + tmp);
-				this.addOrder(tmp);
+				var tmp2 = new Order(type, next.price, volume);
+				console.log('volume < : ' + tmp2);
+				this.addOrder(tmp2);
 				this.doTrade();
 				break;
 			}	
@@ -116,9 +116,9 @@ Exchange.prototype.helperMarket = function (type, volume)
 		}
 		else
 		{
-			var tmp = new Order(type, last, volume);
-			console.log('next is null : ' + tmp);
-			this.addOrder(tmp);
+			var tmp3 = new Order(type, last, volume);
+			console.log('next is null : ' + tmp3);
+			this.addOrder(tmp3);
 			this.doTrade();
 			break;
 		}
@@ -171,7 +171,7 @@ Exchange.prototype.doTrade = function ()
 		console.log("========\n");
 		if (this.ordersSellStop.size() > 0 || this.ordersBuyStop.size() > 0)
 		{
-			console.log("---- Checking Stop Order ----")
+			console.log("---- Checking Stop Order ----");
 			console.log('this.getNextSell().price:' + this.getNextSell().price);
 			//console.log("\nthis.getNextBuy().price: "+this.getNextBuy().price +"\nthis.ordersBuyStop.front().price:"+this.ordersSellStop.front().price);
 			if ((this.ordersSellStop.size() > 0) && ((this.getNextSell().price >= this.ordersSellStop.front().price) || !this.getNextBuy()))
@@ -188,11 +188,11 @@ Exchange.prototype.doTrade = function ()
 				console.log("HERE2");
 				var currentOrder = this.ordersBuyStop.pop();
 				currentOrder.orderType = "Market SELL";
-				console.log("Stop order: "+currentOrder)
+				console.log("Stop order: "+currentOrder);
 				this.doMarketOrder(currentOrder);
 				
 			}
-			console.log("---- END ----")
+			console.log("---- END ----");
 		}
 
 	}

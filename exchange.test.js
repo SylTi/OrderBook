@@ -1,7 +1,8 @@
+/*jslint node: true,mocha:true */
 'use strict';
 
-var exchange = require("../../../lib/models/exchange").Exchange;
-var order = require("../../../lib/models/exchange").Order;
+var exchange = require("./exchange").Exchange;
+var order = require("./exchange").Order;
 
 describe("Exchange", function() {
 	var myexchange = new exchange();
@@ -76,7 +77,7 @@ describe("Exchange", function() {
 	it('should execute a market SELL order', function (done) {
 		myexchange.doMarketOrder(new order('Market SELL', 0, 140));
 		myexchange.getNextBuy().volume.should.equal(40);
-		myexchange.getNextBuy().price.should.equal(0.5)
+		myexchange.getNextBuy().price.should.equal(0.5);
 		done();
 	});
 	it('should add a buy stop order', function (done) {
@@ -100,7 +101,7 @@ describe("Exchange", function() {
 		myexchange.addOrder(order5);
 		myexchange.addOrder(order6);
 
-		myexchange.addStop(new order('SELL Stop', 0.6, 20))
+		myexchange.addStop(new order('SELL Stop', 0.6, 20));
 		myexchange.doMarketOrder(new order('Market BUY', 0, 100));
 		myexchange.ordersBuy.size().should.equal(1);
 		myexchange.ordersSell.size().should.equal(2);
