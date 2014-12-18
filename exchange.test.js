@@ -1,6 +1,7 @@
 /*jslint node: true,mocha:true */
 'use strict';
 
+var should = require('should');
 var exchange = require("./exchange").Exchange;
 var order = require("./exchange").Order;
 
