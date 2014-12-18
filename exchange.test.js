@@ -1,0 +1,113 @@
+'use strict';
+
+var exchange = require("../../../lib/models/exchange").Exchange;
+var order = require("../../../lib/models/exchange").Order;
+
+describe("Exchange", function() {
+	var myexchange = new exchange();
+	before(function(done)
+	{
+		var order1 = new order("BUY", 0.5, 100);
+		var order2 = new order("BUY", 0.49, 50);
+		var order3 = new order("BUY", 1, 10);
+		var order4 = new order("SELL", 0.5, 30);
+		var order5 = new order("SELL", 2, 100);
+		var order6 = new order("SELL", 1, 200);
+
+		myexchange.addOrder(order1);
+		myexchange.addOrder(order2);
+		myexchange.addOrder(order3);
+		myexchange.addOrder(order4);
+		myexchange.addOrder(order5);
+		myexchange.addOrder(order6);
+
+		/*myexchange.ordersBuy.push(order1);
+		myexchange.ordersBuy.push(order2);
+		myexchange.ordersBuy.push(order3);
+		myexchange.ordersSell.push(order4);
+		myexchange.ordersSell.push(order5);
+		myexchange.ordersSell.push(order6);*/
+
+		done();
+	});
+
+	/*it("should verify value in exchange", function(done) {
+
+		myexchange.ordersBuy.peek().price.should.equal(1);
+		myexchange.ordersSell.peek().price.should.equal(0.5);
+		/*
+		myexchange.currency1.push(0.5);
+		myexchange.currency1.push(1);
+		myexchange.currency1.push(0.49);
+		myexchange.currency2.push(0.5);
+		myexchange.currency2.push(0.49);
+		myexchange.currency2.push(1);
+
+		myexchange.currency1.pop().should.equal(0.49);
+		myexchange.currency1.pop().should.equal(0.5);
+		myexchange.currency2.pop().should.equal(1);
+		myexchange.currency2.pop().should.equal(0.5);
+		*
+		done();
+	});
+	it('should check if trade are available', function (done) {
+		myexchange.isTrade().should.equal(true);
+		done();
+	});
+	it('should do the trade', function (done) {
+		myexchange.doTrade();
+		
+		myexchange.isTrade().should.equal(false);
+		//myexchange.ordersBuy.front().price.should.equal(0.5);
+		myexchange.ordersSell.front().price.should.equal(1);
+		//myexchange.ordersBuy.front().volume.should.equal(80);
+		myexchange.ordersSell.front().volume.should.equal(200);
+		done();
+	});*/
+	it('should add and execute a market BUY order', function (done) {
+
+		myexchange.ordersSell.front().price.should.equal(1);
+		myexchange.ordersSell.front().volume.should.equal(200);
+
+		myexchange.doMarketOrder(new order('Market BUY', 0, 400));
+		myexchange.getNextSell().should.equal(0);
+		done();
+	});
+	it('should execute a market SELL order', function (done) {
+		myexchange.doMarketOrder(new order('Market SELL', 0, 140));
+		myexchange.getNextBuy().volume.should.equal(40);
+		myexchange.getNextBuy().price.should.equal(0.5)
+		done();
+	});
+	it('should add a buy stop order', function (done) {
+		myexchange.addStop(new order('BUY Stop', 0.5, 10));
+		done();
+	});
+	it('should trigger stop buy', function (done) {
+		myexchange.doMarketOrder(new order('Market SELL', 0, 60));
+		myexchange.ordersBuy.front().price.should.equal(0.49);
+		myexchange.ordersBuy.front().volume.should.equal(20);
+		myexchange.ordersBuyStop.size().should.equal(0);
+		myexchange.ordersSell.size().should.equal(0);
+		done();
+	});
+	it('should add and trigger stop sell', function (done) {
+		var order4 = new order("SELL", 0.5, 30);
+		var order5 = new order("SELL", 2, 100);
+		var order6 = new order("SELL", 1, 200);
+
+		myexchange.addOrder(order4);
+		myexchange.addOrder(order5);
+		myexchange.addOrder(order6);
+
+		myexchange.addStop(new order('SELL Stop', 0.6, 20))
+		myexchange.doMarketOrder(new order('Market BUY', 0, 100));
+		myexchange.ordersBuy.size().should.equal(1);
+		myexchange.ordersSell.size().should.equal(2);
+		myexchange.ordersBuyStop.size().should.equal(0);
+		myexchange.ordersSellStop.size().should.equal(0);
+		myexchange.ordersSell.front().price.should.equal(1);
+		myexchange.ordersSell.front().volume.should.equal(110);
+		done();
+	});
+});
